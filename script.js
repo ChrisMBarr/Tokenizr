@@ -3,16 +3,16 @@
   const $tokenList = document.querySelector("#tokens");
   const $outputTextarea = document.querySelector("#output");
 
-  let tokenMap = {};
+  let currentTokenMap = {};
 
   const replaceAllTokens = () => {
     let output = $inputTextarea.value;
 
-    Object.keys(tokenMap).forEach((token) => {
-      if (tokenMap[token].replacementText) {
+    Object.keys(currentTokenMap).forEach((token) => {
+      if (currentTokenMap[token].replacementText) {
         output = output.replace(
           new RegExp(token, "g"),
-          tokenMap[token].replacementText
+          currentTokenMap[token].replacementText
         );
       }
     });
@@ -22,47 +22,52 @@
   };
 
   const findTokens = () => {
-    tokenMap = {};
+    currentTokenMap = {};
     const tokenMatches = $inputTextarea.value.matchAll(/{{.+?}}/g);
     for (const match of tokenMatches) {
-      if (tokenMap[match[0]]) {
-        tokenMap[match[0]].occurrences++;
+      if (currentTokenMap[match[0]]) {
+        currentTokenMap[match[0]].occurrences++;
       } else {
-        tokenMap[match[0]] = { replacementText: "", occurrences: 1 };
+        currentTokenMap[match[0]] = { replacementText: "", occurrences: 1 };
       }
     }
 
-    $tokenList.innerHTML = "";
-    Object.keys(tokenMap).forEach((token, i) => {
-      const $li = document.createElement("li");
-      const $code = document.createElement("code");
-      const $label = document.createElement("label");
-      const $tokenInput = document.createElement("input");
-      const $occurrences = document.createElement("small");
+    const foundTokensArr = Object.keys(currentTokenMap);
+    if (foundTokensArr.length) {
+      $tokenList.innerHTML = "";
+      foundTokensArr.forEach((token, i) => {
+        const $li = document.createElement("li");
+        const $code = document.createElement("code");
+        const $label = document.createElement("label");
+        const $tokenInput = document.createElement("input");
+        const $occurrences = document.createElement("small");
 
-      const occ = tokenMap[token].occurrences;
-      $occurrences.innerText = `${occ} ${
-        occ === 1 ? "occurrence" : "occurrences"
-      }`;
+        const occ = currentTokenMap[token].occurrences;
+        $occurrences.innerText = `${occ} ${
+          occ === 1 ? "occurrence" : "occurrences"
+        }`;
 
-      const id = `token-${i}`;
-      $label.setAttribute("for", id);
-      $tokenInput.setAttribute("id", id);
+        const id = `token-${i}`;
+        $label.setAttribute("for", id);
+        $tokenInput.setAttribute("id", id);
 
-      $code.innerText = token;
-      $label.appendChild($code);
-      $tokenInput.value = tokenMap[token].replacementText;
+        $code.innerText = token;
+        $label.appendChild($code);
+        $tokenInput.value = currentTokenMap[token].replacementText;
 
-      $tokenInput.addEventListener("input", () => {
-        tokenMap[token].replacementText = $tokenInput.value;
-        replaceAllTokens();
+        $tokenInput.addEventListener("input", () => {
+          currentTokenMap[token].replacementText = $tokenInput.value;
+          replaceAllTokens();
+        });
+
+        $li.appendChild($label);
+        $li.appendChild($occurrences);
+        $li.appendChild($tokenInput);
+        $tokenList.appendChild($li);
       });
-
-      $li.appendChild($label);
-      $li.appendChild($tokenInput);
-      $li.appendChild($occurrences);
-      $tokenList.appendChild($li);
-    });
+    } else {
+      $tokenList.innerHTML = "<li><small>none found</small></li>";
+    }
   };
 
   const textAreaAdjust = (element) => {

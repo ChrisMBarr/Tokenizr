@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-reboot@4.5.6/reboot.min.css">
-    <link rel="stylesheet" href="styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
     <title>Tokenizr</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Tokenizr</h1>
-        Write some text and add a <code>{{token}}</code>. Define the replacements below and get the output. <a href="https://github.com/FiniteLooper/Tokenizr">View the code on Github</a>
+      <h1>Tokenizr</h1>
+      <span>
+        Write some text and add a <code>{{token}}</code>. Define the
+        replacements below and get the output.
+        <a href="https://github.com/FiniteLooper/Tokenizr"
+          >View the code on Github</a
+        >
+      </span>
     </header>
 
     <label for="input">Input</label>
     <textarea id="input"></textarea>
-    
+
     <label for="tokens">Tokens</label>
     <ul id="tokens"></ul>
 
@@ -23,5 +32,5 @@
     <textarea id="output"></textarea>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
