@@ -2,7 +2,10 @@
   const $inputTextarea = document.querySelector("#input");
   const $tokenList = document.querySelector("#tokens");
   const $outputTextarea = document.querySelector("#output");
+  const storageKeyInput = "input";
+  const storageKeyTokenMap = "tokenMap";
 
+  let masterTokenMap = {};
   let currentTokenMap = {};
 
   const replaceAllTokens = () => {
@@ -25,10 +28,17 @@
     currentTokenMap = {};
     const tokenMatches = $inputTextarea.value.matchAll(/{{.+?}}/g);
     for (const match of tokenMatches) {
-      if (currentTokenMap[match[0]]) {
-        currentTokenMap[match[0]].occurrences++;
+      const tokenText = match[0];
+      if (currentTokenMap[tokenText]) {
+        currentTokenMap[tokenText].occurrences++;
       } else {
-        currentTokenMap[match[0]] = { replacementText: "", occurrences: 1 };
+        currentTokenMap[tokenText] = { replacementText: "", occurrences: 1 };
+      }
+
+      if (masterTokenMap[tokenText]) {
+        currentTokenMap[tokenText].replacementText = masterTokenMap[tokenText];
+      } else {
+        masterTokenMap[tokenText] = "";
       }
     }
 
@@ -57,7 +67,12 @@
 
         $tokenInput.addEventListener("input", () => {
           currentTokenMap[token].replacementText = $tokenInput.value;
+          masterTokenMap[token] = currentTokenMap[token].replacementText;
           replaceAllTokens();
+          localStorage.setItem(
+            storageKeyTokenMap,
+            JSON.stringify(masterTokenMap)
+          );
         });
 
         $li.appendChild($label);
@@ -80,14 +95,23 @@
     textAreaAdjust($inputTextarea);
     $outputTextarea.value = $inputTextarea.value;
     textAreaAdjust($outputTextarea);
-    localStorage.setItem("input", $inputTextarea.value);
+    localStorage.setItem(storageKeyInput, $inputTextarea.value);
   });
 
-  //load previous input value or a default value
-  let prevValue = localStorage.getItem("input");
-  if (!prevValue) {
-    prevValue = `Hello,\nMy name is {{NAME}}, I am {{AGE}} years old and I work for {{COMPANY}}.\n\nThanks,\n - {{NAME}}`;
+  //Load previous tokens
+  const prevTokens = localStorage.getItem(storageKeyTokenMap);
+  if (prevTokens) {
+    masterTokenMap = JSON.parse(prevTokens);
   }
-  $inputTextarea.value = prevValue;
+
+  //load previous input value or a default value
+  const prevInput = localStorage.getItem(storageKeyInput);
+  if (!prevInput) {
+    prevInput = `Hello,\nMy name is {{NAME}}, I am {{AGE}} years old and I work for {{COMPANY}}.\n\nThanks,\n - {{NAME}}`;
+  }
+
+  //Do an initial replacement
+  $inputTextarea.value = prevInput;
   $inputTextarea.dispatchEvent(new KeyboardEvent("input"));
+  replaceAllTokens();
 })();

@@ -1,5 +1,5 @@
 # Tokenizr
-Simple token replacement for text. Useful for common text that only needs to change in small ways
+Simple token replacement for text. Useful for common text that only needs to change in small ways. The input value and token replacements are saved in the browser `localStorage` for when you come back next time.
 
 ## Live Site
 https://finitelooper.github.io/Tokenizr/
