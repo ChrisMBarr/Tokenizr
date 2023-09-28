@@ -1,6 +1,8 @@
 # Tokenizr
 Simple token replacement for text. Useful for common text that only needs to change in small ways
 
+## Live Site
+https://finitelooper.github.io/Tokenizr/
 
 ## Example
 ```
