@@ -95,6 +95,7 @@
     textAreaAdjust($inputTextarea);
     $outputTextarea.value = $inputTextarea.value;
     textAreaAdjust($outputTextarea);
+    replaceAllTokens();
     localStorage.setItem(storageKeyInput, $inputTextarea.value);
   });
 
