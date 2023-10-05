@@ -106,8 +106,8 @@
   }
 
   //load previous input value or a default value
-  const prevInput = localStorage.getItem(storageKeyInput);
-  if (!prevInput) {
+  let prevInput = localStorage.getItem(storageKeyInput);
+  if (prevInput == null || prevInput.trim() == '') {
     prevInput = `Hello,\nMy name is {{NAME}}, I am {{AGE}} years old and I work for {{COMPANY}}.\n\nThanks,\n - {{NAME}}`;
   }
 
