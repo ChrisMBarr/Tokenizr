@@ -87,7 +87,7 @@
 
   const textAreaAdjust = (element) => {
     element.style.height = "1px";
-    element.style.height = 10 + element.scrollHeight + "px";
+    element.style.height = element.scrollHeight + "px";
   };
 
   $inputTextarea.addEventListener("input", () => {
@@ -98,6 +98,10 @@
     replaceAllTokens();
     localStorage.setItem(storageKeyInput, $inputTextarea.value);
   });
+
+  $outputTextarea.addEventListener("focus", ()=>{
+    $outputTextarea.select();
+  })
 
   //Load previous tokens
   const prevTokens = localStorage.getItem(storageKeyTokenMap);

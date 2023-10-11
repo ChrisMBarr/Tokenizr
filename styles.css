@@ -1,15 +1,36 @@
 body {
-  padding: 1rem;
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
-  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(235, 245, 255, 0.85);
 }
 
 header h1 {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+main {
+  padding: 1rem;
+  flex: 1;
+}
+
+code {
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  padding: 2px;
+  border-radius: 0.25rem;
+  font-weight: normal;
+}
+
+hr {
+  border-width: 1px 0 0 0;
+  border-color: #ddd;
 }
 
 label {
@@ -20,9 +41,9 @@ label {
 
 textarea {
   width: 100%;
-  min-height: 200px;
+  min-height: 50px;
   max-height: 50vh;
-  resize: vertical;
+  resize: none;
 }
 
 #input {
@@ -40,8 +61,7 @@ textarea {
 }
 
 #tokens label {
-  
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 
 #tokens label code {
@@ -60,6 +80,11 @@ textarea {
   header {
     display: flex;
     align-items: center;
+
+    position: sticky;
+    top: 0;
+
+    backdrop-filter: blur(5px);
   }
 
   header h1 {
