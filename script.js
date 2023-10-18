@@ -65,7 +65,12 @@
         $label.appendChild($code);
         $tokenInput.value = currentTokenMap[token].replacementText;
 
-        $tokenInput.addEventListener("input", () => {
+        $tokenInput.addEventListener("input", (ev) => {
+          //If pasting, trim off whitespace as that was probably not intended
+          if (ev.inputType === "insertFromPaste") {
+            $tokenInput.value = $tokenInput.value.trim();
+          }
+
           currentTokenMap[token].replacementText = $tokenInput.value;
           masterTokenMap[token] = currentTokenMap[token].replacementText;
           replaceAllTokens();
@@ -99,9 +104,13 @@
     localStorage.setItem(storageKeyInput, $inputTextarea.value);
   });
 
-  $outputTextarea.addEventListener("focus", ()=>{
+  $outputTextarea.addEventListener("focus", () => {
     $outputTextarea.select();
-  })
+  });
+
+  $outputTextarea.addEventListener("click", () => {
+    $outputTextarea.select();
+  });
 
   //Load previous tokens
   const prevTokens = localStorage.getItem(storageKeyTokenMap);
@@ -111,7 +120,7 @@
 
   //load previous input value or a default value
   let prevInput = localStorage.getItem(storageKeyInput);
-  if (prevInput == null || prevInput.trim() == '') {
+  if (prevInput == null || prevInput.trim() == "") {
     prevInput = `Hello,\nMy name is {{NAME}}, I am {{AGE}} years old and I work for {{COMPANY}}.\n\nThanks,\n - {{NAME}}`;
   }
 

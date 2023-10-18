@@ -46,6 +46,10 @@ textarea {
   resize: none;
 }
 
+textarea[readonly] {
+  user-select: all;
+}
+
 #input {
   margin-bottom: 1rem;
 }
